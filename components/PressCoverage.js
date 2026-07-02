@@ -1,7 +1,9 @@
 "use client";
 
 import { useAccessibility } from "./AccessibilityProvider";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function PressCoverage() {
   const { language } = useAccessibility();
@@ -40,6 +42,13 @@ export default function PressCoverage() {
               </span>
             </a>
           ))}
+        </div>
+        
+        <div className="mt-12 text-center">
+          <Link href="/news" className="inline-flex items-center text-brass hover:text-brass-light font-mono text-sm uppercase tracking-widest transition-colors group">
+            {language === "en" ? "View Full News Timeline" : "مشاهده تایم‌لاین کامل اخبار"}
+            <ArrowRight className={`w-4 h-4 ${language === "en" ? "ml-2" : "mr-2 rotate-180"} group-hover:translate-x-1 transition-transform`} />
+          </Link>
         </div>
       </div>
     </section>

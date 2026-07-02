@@ -43,7 +43,7 @@ export default function HeroPortrait() {
             <div className="absolute inset-0 bg-brass/20 mix-blend-overlay z-10 pointer-events-none group-hover:bg-brass/10 transition-colors duration-700" />
             
             <Image
-              src="/images/portrait-placeholder.jpg"
+              src="/images/hero.jpg"
               alt="Portrait of Sayyid Ali Khamenei"
               fill
               className="object-cover object-center filter grayscale contrast-125"

@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { MapPin, Calendar, Clock } from "lucide-react";
+import { MapPin, Calendar, Clock, ArrowRight } from "lucide-react";
 import { siteConfig, biography, timeline } from "@/lib/content";
 import { extendedFuneralDetails, lastVerifiedDate } from "@/lib/announcements";
 import { useAccessibility } from "@/components/AccessibilityProvider";
@@ -104,7 +105,13 @@ function Biography() {
             </motion.div>
           ))}
         </div>
-
+      </div>
+      
+      <div className="max-w-6xl mx-auto mt-12 text-center">
+        <Link href="/biography" className="inline-flex items-center text-brass hover:text-brass-light font-mono text-sm uppercase tracking-widest transition-colors group">
+          {language === "en" ? "View Full Biography Archive" : "مشاهده آرشیو کامل زندگی‌نامه"}
+          <ArrowRight className={`w-4 h-4 ${language === "en" ? "ml-2" : "mr-2 rotate-180"} group-hover:translate-x-1 transition-transform`} />
+        </Link>
       </div>
     </section>
   );
@@ -195,6 +202,13 @@ function Commemoration() {
              <FuneralMap />
              <VisitorTools />
              <LivestreamSlot />
+             
+             <div className="mt-12">
+               <Link href="/funeral" className="inline-flex items-center text-brass hover:text-brass-light font-mono text-sm uppercase tracking-widest transition-colors group">
+                 {language === "en" ? "View Full State Funeral Archive" : "مشاهده آرشیو کامل مراسم تشییع"}
+                 <ArrowRight className={`w-4 h-4 ${language === "en" ? "ml-2" : "mr-2 rotate-180"} group-hover:translate-x-1 transition-transform`} />
+               </Link>
+             </div>
           </div>
         </motion.div>
       </div>

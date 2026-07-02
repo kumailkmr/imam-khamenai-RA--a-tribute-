@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useAccessibility } from "./AccessibilityProvider";
 import { motion } from "framer-motion";
+import ArchiveMenu from "./ArchiveMenu";
 
 export default function Nav() {
   const [activeSection, setActiveSection] = useState("hero");
@@ -50,24 +51,34 @@ export default function Nav() {
           {t.nav.hero}
         </a>
         
-        <ul className="hidden md:flex space-x-8">
-          {navItems.map((item) => (
-            <li key={item.id} className="relative">
-              <a 
-                href={`#${item.id}`}
-                className={`text-sm font-mono tracking-widest uppercase transition-colors focus:outline-none focus:ring-2 focus:ring-brass rounded px-2 py-1 ${activeSection === item.id ? 'text-brass' : 'text-parchment/60 hover:text-parchment'}`}
-              >
-                {item.label}
-              </a>
-              {activeSection === item.id && (
-                <motion.div 
-                  layoutId="activeNav"
-                  className="absolute -bottom-2 left-0 right-0 h-0.5 bg-brass mx-2"
-                />
-              )}
-            </li>
-          ))}
-        </ul>
+        <div className="hidden md:flex items-center space-x-8">
+          <ul className="flex space-x-8">
+            {navItems.map((item) => (
+              <li key={item.id} className="relative flex items-center">
+                <a 
+                  href={`#${item.id}`}
+                  className={`text-sm font-mono tracking-widest uppercase transition-colors focus:outline-none focus:ring-2 focus:ring-brass rounded px-2 py-1 ${activeSection === item.id ? 'text-brass' : 'text-parchment/60 hover:text-parchment'}`}
+                >
+                  {item.label}
+                </a>
+                {activeSection === item.id && (
+                  <motion.div 
+                    layoutId="activeNav"
+                    className="absolute -bottom-2 left-0 right-0 h-0.5 bg-brass mx-2"
+                  />
+                )}
+              </li>
+            ))}
+          </ul>
+          
+          <div className="h-6 w-px bg-brass/20 mx-2" />
+          
+          <ArchiveMenu />
+        </div>
+
+        <div className="md:hidden flex items-center">
+          <ArchiveMenu />
+        </div>
       </div>
     </nav>
   );

@@ -1,13 +1,13 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useAccessibility } from "./AccessibilityProvider";
 import "leaflet/dist/leaflet.css";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
 
 // Fix Leaflet marker icon issue in Next.js
-const initLeaflet = () => {
-  const L = require("leaflet");
+const fixLeafletIcon = () => {
   delete L.Icon.Default.prototype._getIconUrl;
   L.Icon.Default.mergeOptions({
     iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
@@ -16,29 +16,12 @@ const initLeaflet = () => {
   });
 };
 
-const MapContainer = dynamic(
-  () => import("react-leaflet").then((mod) => mod.MapContainer),
-  { ssr: false }
-);
-const TileLayer = dynamic(
-  () => import("react-leaflet").then((mod) => mod.TileLayer),
-  { ssr: false }
-);
-const Marker = dynamic(
-  () => import("react-leaflet").then((mod) => mod.Marker),
-  { ssr: false }
-);
-const Popup = dynamic(
-  () => import("react-leaflet").then((mod) => mod.Popup),
-  { ssr: false }
-);
-
 export default function FuneralMap({ fallbackData }) {
   const [mounted, setMounted] = useState(false);
   const { language } = useAccessibility();
 
   useEffect(() => {
-    initLeaflet();
+    fixLeafletIcon();
     setMounted(true);
   }, []);
 

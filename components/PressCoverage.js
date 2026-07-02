@@ -1,55 +1,153 @@
 "use client";
 
 import { useAccessibility } from "./AccessibilityProvider";
-import { ExternalLink, ArrowRight } from "lucide-react";
+import { ExternalLink, ArrowRight, Newspaper, Radio } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
 export default function PressCoverage() {
   const { language } = useAccessibility();
+  const isRTL = language === "fa";
 
-  const links = [
-    { outlet: "Reuters", date: "Mar 1, 2026", headline: { en: "Iran's Supreme Leader Khamenei dies", fa: "رهبر جمهوری اسلامی ایران درگذشت" }, url: "https://reuters.com" },
-    { outlet: "Al Jazeera", date: "Mar 1, 2026", headline: { en: "Middle East reacts to death of Ali Khamenei", fa: "واکنش خاورمیانه به درگذشت علی خامنه‌ای" }, url: "https://aljazeera.com" },
-    { outlet: "AP News", date: "Mar 2, 2026", headline: { en: "Iran declares 40 days of mourning for Khamenei", fa: "اعلام ۴۰ روز عزای عمومی در ایران" }, url: "https://apnews.com" }
+  const newsItems = [
+    { 
+      outlet: "Mehr News Agency", 
+      type: "State Media",
+      date: "Mar 1, 2026", 
+      headline: { 
+        en: "Supreme Leader's Legacy: A Nation Mourns the Loss of a Visionary Guide", 
+        fa: "میراث رهبر معظم انقلاب: ملتی در سوگ از دست دادن راهنمایی دوراندیش" 
+      }, 
+      url: "https://en.mehrnews.com/",
+      color: "from-blue-900/20"
+    },
+    { 
+      outlet: "Press TV", 
+      type: "International Broadcast",
+      date: "Mar 1, 2026", 
+      headline: { 
+        en: "Global Reactions Pour In Following the Passing of Ayatollah Khamenei", 
+        fa: "واکنش‌های جهانی در پی درگذشت آیت‌الله خامنه‌ای" 
+      }, 
+      url: "https://www.presstv.ir/",
+      color: "from-red-900/20"
+    },
+    { 
+      outlet: "Tasnim News Agency", 
+      type: "News Agency",
+      date: "Mar 2, 2026", 
+      headline: { 
+        en: "Millions Gather in Tehran for Historic Funeral Procession", 
+        fa: "تجمع میلیونی در تهران برای مراسم تشییع تاریخی" 
+      }, 
+      url: "https://www.tasnimnews.com/en",
+      color: "from-emerald-900/20"
+    },
+    { 
+      outlet: "Razagraphy", 
+      type: "Documentary & Archival",
+      date: "Mar 3, 2026", 
+      headline: { 
+        en: "Through the Lens: Unseen Archives of the Supreme Leader's Early Life", 
+        fa: "از دریچه دوربین: آرشیوهای دیده‌نشده از اوایل زندگی رهبر معظم انقلاب" 
+      }, 
+      url: "#",
+      color: "from-brass/10"
+    }
   ];
 
   return (
-    <section className="py-24 px-4 bg-ink scroll-mt-20">
-      <div className="max-w-4xl mx-auto">
-        <h3 className="font-amiri text-2xl md:text-3xl text-brass mb-8">
-          {language === "en" ? "Press Coverage" : "پوشش خبری"}
-        </h3>
+    <section className="relative py-32 px-4 bg-[#0A0A0A] overflow-hidden scroll-mt-20 border-y border-brass/10">
+      
+      {/* Background Texture */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-charcoal via-transparent to-transparent opacity-40 pointer-events-none" />
+      
+      <div className="max-w-7xl mx-auto relative z-10">
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {links.map((link, i) => (
-            <a 
-              key={i} 
-              href={link.url}
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+          <div className={`space-y-4 ${isRTL ? 'text-right' : 'text-left'}`}>
+            <motion.div 
+              initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className={`inline-flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''}`}
+            >
+              <Radio className="w-5 h-5 text-brass" />
+              <span className="font-mono text-brass tracking-[0.2em] text-xs uppercase">
+                {language === "en" ? "Official Bulletins" : "بولتن‌های رسمی"}
+              </span>
+            </motion.div>
+            <motion.h3 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="font-amiri text-5xl md:text-6xl text-parchment"
+            >
+              {language === "en" ? "Verified Press Reports" : "گزارش‌های مطبوعاتی تأیید شده"}
+            </motion.h3>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            <Link 
+              href="/news" 
+              className="group flex items-center space-x-3 border border-brass/20 bg-charcoal/30 hover:bg-brass/10 px-6 py-3 rounded-full transition-all duration-300 backdrop-blur-sm"
+            >
+              <span className="font-mono text-xs text-parchment uppercase tracking-widest group-hover:text-brass transition-colors">
+                {language === "en" ? "View Full Coverage" : "مشاهده پوشش کامل"}
+              </span>
+              <ArrowRight className={`w-4 h-4 text-brass ${isRTL ? 'rotate-180' : ''} group-hover:translate-x-1 transition-transform`} />
+            </Link>
+          </motion.div>
+        </div>
+        
+        {/* News Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {newsItems.map((item, i) => (
+            <motion.a
+              key={i}
+              href={item.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group block p-5 border border-brass/20 rounded bg-charcoal hover:bg-brass/10 transition-colors relative overflow-hidden"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.6 }}
+              className="group relative flex flex-col h-full bg-ink border border-brass/20 hover:border-brass/50 rounded-xl overflow-hidden transition-all duration-500 hover:shadow-[0_10px_40px_-10px_rgba(184,134,11,0.2)] hover:-translate-y-2"
             >
-              <div className="flex justify-between items-start mb-4">
-                <span className="font-mono text-xs uppercase text-brass-light tracking-widest">{link.outlet}</span>
-                <ExternalLink className="w-4 h-4 text-parchment/30 group-hover:text-brass transition-colors" />
+              {/* Card Gradient Background */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${item.color} to-transparent opacity-20 group-hover:opacity-40 transition-opacity duration-500`} />
+              
+              <div className="relative z-10 flex flex-col h-full p-6 lg:p-8">
+                <div className={`flex justify-between items-start mb-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  <div className={`flex flex-col ${isRTL ? 'items-end' : 'items-start'}`}>
+                    <span className="font-mono text-[10px] text-gray-500 uppercase tracking-widest mb-1">{item.type}</span>
+                    <span className="font-sans font-semibold text-brass tracking-wider text-sm">{item.outlet}</span>
+                  </div>
+                  <div className="w-8 h-8 rounded-full bg-charcoal border border-brass/20 flex items-center justify-center group-hover:bg-brass/20 transition-colors shrink-0">
+                    <ExternalLink className="w-3.5 h-3.5 text-brass group-hover:text-brass-light" />
+                  </div>
+                </div>
+                
+                <h4 className={`font-amiri text-2xl text-parchment/90 leading-snug mb-8 grow ${isRTL ? 'text-right' : 'text-left'}`}>
+                  {item.headline[language]}
+                </h4>
+                
+                <div className={`flex items-center space-x-2 pt-6 border-t border-brass/10 ${isRTL ? 'space-x-reverse justify-end' : ''}`}>
+                  <Newspaper className="w-4 h-4 text-gray-500" />
+                  <span className="text-xs text-gray-400 font-mono tracking-wider">
+                    {item.date}
+                  </span>
+                </div>
               </div>
-              <h4 className="font-inter text-parchment/90 leading-snug mb-4">
-                {link.headline[language]}
-              </h4>
-              <span className="text-xs text-parchment/50 font-mono absolute bottom-4 left-5">
-                {link.date}
-              </span>
-            </a>
+            </motion.a>
           ))}
         </div>
-        
-        <div className="mt-12 text-center">
-          <Link href="/news" className="inline-flex items-center text-brass hover:text-brass-light font-mono text-sm uppercase tracking-widest transition-colors group">
-            {language === "en" ? "View Full News Timeline" : "مشاهده تایم‌لاین کامل اخبار"}
-            <ArrowRight className={`w-4 h-4 ${language === "en" ? "ml-2" : "mr-2 rotate-180"} group-hover:translate-x-1 transition-transform`} />
-          </Link>
-        </div>
+
       </div>
     </section>
   );

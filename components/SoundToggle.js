@@ -9,9 +9,10 @@ export default function SoundToggle() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setIsEnabled(getAudioState());
-    setMounted(true);
-    
+    setTimeout(() => {
+      setIsEnabled(getAudioState());
+      setMounted(true);
+    }, 0);
     // Listen for custom events if other components (like IntroOverlay) toggle it
     const handleStorageChange = () => {
       setIsEnabled(getAudioState());

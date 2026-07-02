@@ -37,7 +37,7 @@ export default function ReactionsPage() {
               </div>
             </div>
             <p className="font-inter text-parchment/80 leading-relaxed italic flex-1">
-              "{reaction.text[language]}"
+              &quot;{reaction.text[language]}&quot;
             </p>
           </motion.div>
         ))}

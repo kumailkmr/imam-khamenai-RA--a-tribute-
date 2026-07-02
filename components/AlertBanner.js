@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, AlertCircle } from "lucide-react";
 import { globalAlert } from "@/lib/announcements";
@@ -11,15 +11,15 @@ export default function AlertBanner() {
   const { language } = useAccessibility();
   const [isVisible, setIsVisible] = useState(globalAlert?.isActive);
 
-  if (!globalAlert || !isVisible) return null;
-
-  const isUrgent = globalAlert.type === "urgent";
+  const isUrgent = globalAlert?.type === "urgent";
 
   useEffect(() => {
     if (isUrgent && isVisible) {
       playAlertChime();
     }
   }, [isUrgent, isVisible]);
+
+  if (!globalAlert || !isVisible) return null;
 
   return (
     <AnimatePresence>

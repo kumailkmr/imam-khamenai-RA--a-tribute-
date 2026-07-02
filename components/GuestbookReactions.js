@@ -12,7 +12,9 @@ export default function GuestbookReactions({ entryId, initialFlames = 0 }) {
   useEffect(() => {
     // Check if reacted in this session
     const reacted = sessionStorage.getItem(`reacted_${entryId}`);
-    if (reacted) setHasReacted(true);
+    if (reacted) {
+      setTimeout(() => setHasReacted(true), 0);
+    }
   }, [entryId]);
 
   const handleReact = async () => {

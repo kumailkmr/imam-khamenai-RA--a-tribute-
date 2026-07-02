@@ -50,7 +50,7 @@ export default function QuotesPage() {
             <Quote className="absolute top-6 left-6 w-12 h-12 text-brass/10 group-hover:text-brass/20 transition-colors z-0" />
             <div className="relative z-10">
               <p className="font-amiri text-2xl text-parchment mb-6 leading-relaxed">
-                "{q.text[language]}"
+                &quot;{q.text[language]}&quot;
               </p>
               <div className="flex items-end justify-between mt-auto">
                 <div>

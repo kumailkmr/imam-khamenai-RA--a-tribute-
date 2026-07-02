@@ -96,7 +96,7 @@ function GuestbookModerator() {
     setLoading(false);
   };
 
-  useEffect(() => { fetchEntries(); }, []);
+  useEffect(() => { setTimeout(() => fetchEntries(), 0); }, []);
 
   const toggleHide = async (id, currentStatus) => {
     await fetch("/api/admin/guestbook", {
@@ -180,7 +180,7 @@ function AnnouncementsEditor() {
     setLoading(false);
   };
 
-  useEffect(() => { fetchItems(); }, []);
+  useEffect(() => { setTimeout(() => fetchItems(), 0); }, []);
 
   const handleDelete = async (id) => {
     if (!confirm("Delete announcement?")) return;
@@ -277,7 +277,7 @@ function CondolencesEditor() {
     setLoading(false);
   };
 
-  useEffect(() => { fetchItems(); }, []);
+  useEffect(() => { setTimeout(() => fetchItems(), 0); }, []);
 
   const handleDelete = async (id) => {
     if (!confirm("Delete condolence?")) return;

@@ -17,30 +17,11 @@ export default function IntroOverlay() {
   const stopDroneRef = useRef(null);
 
   useEffect(() => {
-    // Sync initial sound state
-    setSoundEnabled(getAudioState());
-
-    const hasSeenIntro = sessionStorage.getItem("tribute_intro_seen");
-    if (hasSeenIntro && process.env.NODE_ENV !== "development") {
-      setIsVisible(false);
-      return;
-    }
-
-    if (shouldReduceMotion) {
-      // Just a simple fade out after a short time
-      const timer = setTimeout(() => handleDismiss(), 1500);
-      return () => clearTimeout(timer);
-    } else {
-      // Exact sequence timing: total ~3.8s
-      // 0-0.8s pattern fades in
-      // 0.8-1.8s farsi name
-      // 1.8-2.6s english name
-      // 2.6-3.2s gold line
-      // 3.2-3.8s fade out whole overlay
-      const timer = setTimeout(() => handleDismiss(), 3200); // Trigger dismiss at 3.2s to fade by 3.8s
-      return () => clearTimeout(timer);
-    }
-  }, [shouldReduceMotion]);
+    // Sync initial sound state (deferred to avoid synchronous state update in effect)
+    setTimeout(() => {
+      setSoundEnabled(getAudioState());
+    }, 0);
+  }, []);
 
   const handleDismiss = () => {
     setIsDismissing(true);
@@ -56,6 +37,24 @@ export default function IntroOverlay() {
       setIsVisible(false);
     }, 600); // 0.6s fade out (3.2 -> 3.8s)
   };
+
+  useEffect(() => {
+    const hasSeenIntro = sessionStorage.getItem("tribute_intro_seen");
+    if (hasSeenIntro && process.env.NODE_ENV !== "development") {
+      setTimeout(() => setIsVisible(false), 0);
+      return;
+    }
+
+    if (shouldReduceMotion) {
+      // Just a simple fade out after a short time
+      const timer = setTimeout(() => handleDismiss(), 1500);
+      return () => clearTimeout(timer);
+    } else {
+      // Exact sequence timing: total ~3.8s
+      const timer = setTimeout(() => handleDismiss(), 3200); // Trigger dismiss at 3.2s to fade by 3.8s
+      return () => clearTimeout(timer);
+    }
+  }, [shouldReduceMotion]);
 
   // When sound toggles in the intro, update global state
   const handleSoundToggle = async () => {

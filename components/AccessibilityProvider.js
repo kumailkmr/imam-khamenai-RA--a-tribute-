@@ -16,9 +16,11 @@ export function AccessibilityProvider({ children }) {
     const savedSize = localStorage.getItem("tribute_text_size");
     const savedPattern = localStorage.getItem("tribute_reduce_pattern");
 
-    if (savedLang) setLanguage(savedLang);
-    if (savedSize) setTextSize(savedSize);
-    if (savedPattern === "true") setReducePattern(true);
+    setTimeout(() => {
+      if (savedLang) setLanguage(savedLang);
+      if (savedSize) setTextSize(savedSize);
+      if (savedPattern === "true") setReducePattern(true);
+    }, 0);
   }, []);
 
   const changeLanguage = (lang) => {

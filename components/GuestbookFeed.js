@@ -14,8 +14,15 @@ export default function GuestbookFeed({ onNewEntryCount }) {
   const { t } = useAccessibility();
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState("newest"); // "newest" or "reactions"
+  const [now, setNow] = useState(0); // initialize to 0 for SSR, then set on mount
   const [entries, setEntries] = useState([]);
   const prevTotalRef = useRef();
+
+  useEffect(() => {
+    setTimeout(() => setNow(Date.now()), 0);
+    const interval = setInterval(() => setNow(Date.now()), 60000);
+    return () => clearInterval(interval);
+  }, []);
   const limit = 10;
   
   const { data, error, isLoading } = useSWR(`/api/guestbook?page=${page}&limit=${limit}&sort=${sort}`, fetcher, {
@@ -34,18 +41,20 @@ export default function GuestbookFeed({ onNewEntryCount }) {
       prevTotalRef.current = data.total;
 
       if (page === 1) {
-        setEntries(data.entries);
+        setTimeout(() => setEntries(data.entries), 0);
       } else {
         // Append unique entries for load more
-        setEntries((prev) => {
-          const newEntries = [...prev];
-          data.entries.forEach(entry => {
-            if (!newEntries.find(e => e.id === entry.id)) {
-              newEntries.push(entry);
-            }
+        setTimeout(() => {
+          setEntries((prev) => {
+            const newEntries = [...prev];
+            data.entries.forEach(entry => {
+              if (!newEntries.find(e => e.id === entry.id)) {
+                newEntries.push(entry);
+              }
+            });
+            return newEntries;
           });
-          return newEntries;
-        });
+        }, 0);
       }
     }
   }, [data, page, onNewEntryCount]);
@@ -58,8 +67,9 @@ export default function GuestbookFeed({ onNewEntryCount }) {
   };
 
   const formatRelativeTime = (timestamp) => {
+    if (now === 0) return '';
     const rtf = new Intl.RelativeTimeFormat(t.nav.hero === "Hero" ? 'en' : 'fa', { numeric: 'auto' });
-    const diffMs = timestamp - Date.now();
+    const diffMs = timestamp - now;
     const daysDifference = Math.round(diffMs / (1000 * 60 * 60 * 24));
     
     if (daysDifference === 0) {

@@ -65,14 +65,14 @@ export default function Nav() {
               <li key={item.id} className="relative flex items-center">
                 <Link 
                   href={item.path === "/" ? `/#${item.id}` : item.path}
-                  className={`text-sm font-mono tracking-widest uppercase transition-colors focus:outline-none focus:ring-2 focus:ring-brass rounded px-2 py-1 ${activeSection === item.id ? 'text-brass' : 'text-parchment/60 hover:text-parchment'}`}
+                  className={`text-sm font-mono tracking-widest uppercase transition-all duration-300 focus:outline-none rounded px-4 py-2 border ${activeSection === item.id ? 'border-blue-400 text-white bg-blue-600 shadow-[0_0_15px_rgba(59,130,246,0.4)]' : 'border-blue-900/50 text-blue-200 bg-blue-900/20 hover:bg-blue-500 hover:border-blue-400 hover:text-white hover:shadow-[0_0_15px_rgba(59,130,246,0.3)]'}`}
                 >
                   {item.label}
                 </Link>
                 {activeSection === item.id && (
                   <motion.div 
                     layoutId="activeNav"
-                    className="absolute -bottom-2 left-0 right-0 h-0.5 bg-brass mx-2"
+                    className="absolute -bottom-3 left-0 right-0 h-1 rounded-full bg-blue-400 mx-4 shadow-[0_0_8px_rgba(59,130,246,0.8)]"
                   />
                 )}
               </li>
